@@ -22,9 +22,12 @@ export function DeleteTaskTodoAPI({payload}) {
     url: "https://63c910d9320a0c4c953fd623.mockapi.io/Task/" + payload,
   });
 }
-export function DoneTaskTodoAPI(id) {
+export function ToggleTaskTodoAPI({payload}) {
   return axios.request({
     method: "PUT",
-    url: "https://63c910d9320a0c4c953fd623.mockapi.io/Task/"+id,
+    url: "https://63c910d9320a0c4c953fd623.mockapi.io/Task/" + payload.id,
+    data: {
+      status: payload.status,
+    },
   });
 }

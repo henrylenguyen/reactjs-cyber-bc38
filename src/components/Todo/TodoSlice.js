@@ -30,7 +30,15 @@ const TodoSlice = createSlice({
       };
       
     },
-  },
-});
-export const { getTaskList, addTask, setTaskList, deleteTask } = TodoSlice.actions;
+    doneTask: (state,{payload})=>{
+       return {
+         ...state,
+         taskList: [...state.taskList, payload],
+       };
+      
+      }
+    },
+  });
+export const { getTaskList, addTask, setTaskList, deleteTask, doneTask } =
+  TodoSlice.actions;
 export default TodoSlice.reducer;

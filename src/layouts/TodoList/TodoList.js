@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, deleteTask, getTaskList } from "../../components/Todo/TodoSlice";
+import { addTask, deleteTask, doneTask, getTaskList } from "../../components/Todo/TodoSlice";
 import "./Todolist.css";
 export default function TodoListSaga() {
   const dispatch = useDispatch();
@@ -54,6 +54,13 @@ export default function TodoListSaga() {
   const handleDeleteTask = (id)=>{
     dispatch(deleteTask(id));
   }
+  const handleToggleTask = (action)=>{
+    dispatch(doneTask({
+      id: action.id,
+      status: !action.status,
+      name: action.name
+    }));
+  }
   const renderTaskToDo = () => {
     return taskList
       .filter((item) => !item.status)
@@ -65,11 +72,15 @@ export default function TodoListSaga() {
               <button
                 className="remove"
                 type="button"
-                onClick={()=>handleDeleteTask(item.id)}
+                onClick={() => handleDeleteTask(item.id)}
               >
                 <i className="fa fa-trash-alt" />
               </button>
-              <button type="button" className="complete">
+              <button
+                type="button"
+                className="complete"
+                onClick={() => handleToggleTask(item)}
+              >
                 <i className="far fa-check-circle" />
                 <i className="fas fa-check-circle" />
               </button>
@@ -87,10 +98,18 @@ export default function TodoListSaga() {
           <li key={index}>
             <span>{item.name}</span>
             <div className="buttons">
-              <button className="remove" type="button">
+              <button
+                className="remove"
+                type="button"
+                onClick={() => handleDeleteTask(item.id)}
+              >
                 <i className="fa fa-trash-alt" />
               </button>
-              <button type="button" className="complete">
+              <button
+                type="button"
+                className="complete"
+                onClick={() => handleToggleTask(item)}
+              >
                 <i className="far fa-undo" />
                 <i className="fas fa-undo" />
               </button>
