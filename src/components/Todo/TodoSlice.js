@@ -15,15 +15,22 @@ const TodoSlice = createSlice({
 
     },
     addTask: (state, action) => {
-      console.log("state", state);
-      console.log("action", action);
       return {
         ...state,
         taskList: [...state.taskList,action.payload]
       };
       
     },
+    deleteTask: (state, action) => {
+      let newTaskList = [...state.taskList];
+      newTaskList.splice(action.payload - 1 ,1)
+      return {
+        ...state,
+        taskList: newTaskList,
+      };
+      
+    },
   },
 });
-export const { getTaskList, addTask, setTaskList } = TodoSlice.actions;
+export const { getTaskList, addTask, setTaskList, deleteTask } = TodoSlice.actions;
 export default TodoSlice.reducer;

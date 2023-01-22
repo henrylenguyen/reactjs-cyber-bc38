@@ -16,10 +16,10 @@ export function PostTaskTodoAPI(action) {
     },
   });
 }
-export function DeleteTaskTodoAPI(id) {
+export function DeleteTaskTodoAPI({payload}) {
   return axios.request({
     method: "DELETE",
-    url: "https://63c910d9320a0c4c953fd623.mockapi.io/Task/"+id,
+    url: "https://63c910d9320a0c4c953fd623.mockapi.io/Task/" + payload,
   });
 }
 export function DoneTaskTodoAPI(id) {

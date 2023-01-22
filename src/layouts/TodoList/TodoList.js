@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, getTaskList } from "../../components/Todo/TodoSlice";
+import { addTask, deleteTask, getTaskList } from "../../components/Todo/TodoSlice";
 import "./Todolist.css";
 export default function TodoListSaga() {
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(getTaskList());
+    return () => {};
+  }, [dispatch]);
+
   let [state, setState] = useState({
     values: {
       name: "",
@@ -11,7 +18,6 @@ export default function TodoListSaga() {
       name: "",
     },
   });
- const dispatch = useDispatch();
   const { taskList } = useSelector((state) => state.todo);
   console.log("taskList", taskList);
 
@@ -22,6 +28,7 @@ export default function TodoListSaga() {
     newValues = { ...newValues, [name]: value };
 
     let newErrors = { ...state.errors };
+  
 
     let regexString = /^[a-z A-Z]+$/;
 
@@ -38,18 +45,15 @@ export default function TodoListSaga() {
     });
   };
 
-  useEffect(() => {
-    dispatch(getTaskList());
-    return () => {};
-  }, [dispatch]);
-
   const handleAddTask = (e) => {
     e.preventDefault();
     dispatch(addTask({
       name: state.values.name
     }));
   };
-
+  const handleDeleteTask = (id)=>{
+    dispatch(deleteTask(id));
+  }
   const renderTaskToDo = () => {
     return taskList
       .filter((item) => !item.status)
@@ -58,7 +62,11 @@ export default function TodoListSaga() {
           <li key={index}>
             <span>{item.name}</span>
             <div className="buttons">
-              <button className="remove" type="button">
+              <button
+                className="remove"
+                type="button"
+                onClick={()=>handleDeleteTask(item.id)}
+              >
                 <i className="fa fa-trash-alt" />
               </button>
               <button type="button" className="complete">
@@ -94,11 +102,8 @@ export default function TodoListSaga() {
 
   return (
     <div className="card">
-      {/* <button className="p-5 text-white bg-green-400 w-full" onClick={()=>{
-      dispatch({type: "saga"});
-    }}>Dispatch API Saga</button> */}
       <div className="card__header">
-        <img src={require("./bg.png")} alt="alo" />
+        <img src={require("./bg.png")} alt="background" />
       </div>
 
       <form className="card__body">

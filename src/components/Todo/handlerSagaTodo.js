@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { call, put, delay } from "redux-saga/effects";
 import { setLoading } from "../Global/Loading/LoadingSlice";
-import { PostTaskTodoAPI, requestAPI } from "./Services";
+import { DeleteTaskTodoAPI, PostTaskTodoAPI, requestAPI } from "./Services";
 import { getTaskList, setTaskList } from "./TodoSlice";
 
 // Dùng để xử lý các tiến trình của API
@@ -28,7 +28,6 @@ export function* handlerTodoSga() {
 
 //--------------------ADD TASK-----------------
 export function* addTaskAPI({payload}) {
-  console.log("payload", payload);
   try {
     const { status } = yield call(() => {
       return PostTaskTodoAPI(payload.name);
@@ -39,5 +38,18 @@ export function* addTaskAPI({payload}) {
     }
   } catch (error) {
     console.log(error);
+  }
+}
+// -----------------DELETE TASK--------------------
+export function* deleteTaskAPI(action){
+  try {
+    const {status} = yield call(()=>{
+      return DeleteTaskTodoAPI(action);
+    })
+     if (status === StatusCodes.OK) {
+      yield put(getTaskList());
+    }
+  } catch (error) {
+    
   }
 }

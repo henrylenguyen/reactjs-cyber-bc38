@@ -7,7 +7,7 @@ import { rootSaga } from "../root/rootSaga";
 const SagaMiddleWare = createSagaMiddleware();
 const store = configureStore({
   reducer: reducer,
-  middleware: (gDM) => gDM().concat(logger, SagaMiddleWare),
+  middleware: (gDM) => gDM().concat(SagaMiddleWare),
 });
 SagaMiddleWare.run(rootSaga)
 export default store;

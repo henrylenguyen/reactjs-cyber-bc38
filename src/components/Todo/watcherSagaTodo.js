@@ -1,6 +1,7 @@
 import { takeLatest } from "redux-saga/effects"
-import {addTaskAPI, handlerTodoSga} from "./handlerSagaTodo";
-import { addTask, getTaskList } from "./TodoSlice";
+import {addTaskAPI, deleteTaskAPI, handlerTodoSga} from "./handlerSagaTodo";
+import { DeleteTaskTodoAPI } from "./Services";
+import { addTask, deleteTask, getTaskList } from "./TodoSlice";
 
 // Theo dõi các tiến trình từ API trả về
 export function* todoSaga(){
@@ -10,5 +11,10 @@ export function* todoSaga(){
 // Theo dõi các tiến trình từ việc thêm task
 export function* addTaskTodoSaga(){
   yield takeLatest(addTask.type,addTaskAPI)
+  
+}
+// Theo dõi các tiến trình từ việc xóa task
+export function* deleteTaskTodoSaga(){
+  yield takeLatest(deleteTask.type,deleteTaskAPI)
   
 }
